@@ -5,8 +5,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # General variables
-name="arch-update"
-_name="Arch-Update"
+name="unios-update"
+_name="unios-update"
 version="4.4.2"
 option="${1}"
 

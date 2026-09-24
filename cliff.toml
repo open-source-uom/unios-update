@@ -3,7 +3,7 @@
 
 [remote.github]
 owner = "Antiz96"
-repo = "arch-update"
+repo = "unios-update"
 
 [changelog]
 # template for the changelog footer

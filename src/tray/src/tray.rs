@@ -27,7 +27,7 @@ pub struct ArchUpdateTray {
 impl ksni::Tray for ArchUpdateTray {
     // Set id
     fn id(&self) -> String {
-        "Arch-Update".into()
+        "unios-update".into()
     }
 
     // Set category
@@ -257,7 +257,7 @@ impl ksni::Tray for ArchUpdateTray {
             StandardItem {
                 label: gettext("Check for updates"),
                 activate: Box::new(
-                    |_| match Command::new("arch-update").arg("--check").spawn() {
+                    |_| match Command::new("unios-update").arg("--check").spawn() {
                         Ok(_) => info!("Arch-Update check executed"),
                         Err(error) => error!("Failed to execute Arch-Update check: {error}"),
                     },

@@ -42,6 +42,9 @@ if [ -n "${proceed_with_update}" ]; then
 
 	# Record the date of the last successful update (used by the "list_news" library)
 	date +%Y-%m-%d > "${statedir}/last_update_run"
+
+	# Set tray icon to "success" state
+    icon_up-to-date-success
 fi
 
 # Source the "orphan_packages" library which displays orphan packages and offers to remove them if:

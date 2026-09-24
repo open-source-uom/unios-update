@@ -49,6 +49,8 @@ endif
 	install -Dm 664 "res/icons/${pkgname}-dark.svg" "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}-dark.svg"
 	install -Dm 664 "res/icons/${pkgname}_updates-available-dark.svg" "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_updates-available-dark.svg"
 	install -Dm 664 "res/icons/${pkgname}_updates-available-dark-cb.svg" "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_updates-available-dark-cb.svg"
+	install -Dm 664 "res/icons/${pkgname}_unios-allcheck.svg" "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_unios-allcheck.svg"
+	install -Dm 664 "res/icons/${pkgname}_unios-download.svg" "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_unios-download.svg"
 
 	# Install .desktop files
 	install -Dm 644 "res/desktop/${pkgname}.desktop" "${DESTDIR}${PREFIX}/share/applications/${pkgname}.desktop"
@@ -112,6 +114,8 @@ uninstall:
 	rm -f "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}-dark.svg"
 	rm -f "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_updates-available-dark.svg"
 	rm -f "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_updates-available-dark-cb.svg"
+	rm -f "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_unios-allcheck.svg"
+	rm -f "${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps/${pkgname}_unios-download.svg"
 
 	# Delete .desktop files
 	rm -f "${DESTDIR}${PREFIX}/share/applications/${pkgname}.desktop"

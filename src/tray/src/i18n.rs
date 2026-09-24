@@ -44,15 +44,15 @@ pub fn init_i18n(i18n_dir: &str) {
         }
     }
 
-    if textdomain("Arch-Update").is_err() {
+    if textdomain("unios-update").is_err() {
         warn!("Failed to set gettext domain");
     }
 
-    if bindtextdomain("Arch-Update", i18n_dir).is_err() {
+    if bindtextdomain("unios-update", i18n_dir).is_err() {
         warn!("Failed to bind gettext domain path");
     }
 
-    if bind_textdomain_codeset("Arch-Update", "UTF-8").is_err() {
+    if bind_textdomain_codeset("unios-update", "UTF-8").is_err() {
         warn!("Failed to set gettext domain codeset");
     }
 }

@@ -34,7 +34,7 @@ checkupdates_db_tmpdir_prefix="${tmpdir}/checkupdates-"
 # Declare necessary parameters for translations
 # shellcheck disable=SC1091
 . gettext.sh
-# Using "Arch-Update" as TEXTDOMAIN to avoid conflicting with the "arch-update" TEXTDOMAIN used by the "Arch Linux Updates Indicator" Gnome extension (https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/)
+# Using "unios-update" as TEXTDOMAIN to avoid conflicting with the "unios-update" TEXTDOMAIN used by the "Arch Linux Updates Indicator" Gnome extension (https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/)
 # shellcheck disable=SC2154
 export TEXTDOMAIN="${_name}"
 # Check where the translation files are installed (depending on the PREFIX used during the installation) to see if the default TEXTDOMAINDIR path (/usr/share/locale) should be superseded
@@ -206,13 +206,18 @@ check_diff_prog () {
 # Definition of the icon_up-to-date function: Change tray icon to "up to date"
 icon_up-to-date() {
 	# shellcheck disable=SC2154
-	echo "${name}-${tray_icon_style}" > "${statedir}/tray_icon"
+	echo "unios-allcheck" > "${statedir}/tray_icon"
 }
 
 # Definition of the icon_updates-available function: Change tray icon to "updates available"
 icon_updates-available() {
 	# shellcheck disable=SC2154
-	echo "${name}_updates-available-${tray_icon_style}${colorblind_mode}" > "${statedir}/tray_icon"
+	echo "unios-download" > "${statedir}/tray_icon"
+}
+
+# Defenition of the icon_up-to-date-success function: Change tray icon to "successfull update"
+icon_up-to-date-success() {
+    echo "unios-success" > "${statedir}/tray_icon"
 }
 
 # Definition of commands to always run on exit (e.g. cleanup of files / dirs which have no purpose being kept)
