@@ -1,41 +1,26 @@
 #!/bin/bash
 
-# tray.sh: Start the Arch-Update systray applet
+# tray.sh: Start the UniOS-Update systray applet
 # https://github.com/Antiz96/arch-update
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 if [ "${2}" == "--enable" ]; then
+	# Remove the legacy autostart .desktop file (replaced by the systemd user unit)
+	rm -f "${XDG_CONFIG_HOME:-${HOME}/.config}/autostart/${name}-tray.desktop"
+
 	# shellcheck disable=SC2154
-	if [ -f "${XDG_DATA_HOME}/applications/${name}-tray.desktop" ]; then
-		tray_desktop_file="${XDG_DATA_HOME}/applications/${name}-tray.desktop"
-	elif [ -f "${HOME}/.local/share/applications/${name}-tray.desktop" ]; then
-		tray_desktop_file="${HOME}/.local/share/applications/${name}-tray.desktop"
-	elif [ -f "${XDG_DATA_DIRS}/applications/${name}-tray.desktop" ]; then
-		tray_desktop_file="${XDG_DATA_DIRS}/applications/${name}-tray.desktop"
-	elif [ -f "/usr/local/share/applications/${name}-tray.desktop" ]; then
-		tray_desktop_file="/usr/local/share/applications/${name}-tray.desktop"
-	elif [ -f "/usr/share/applications/${name}-tray.desktop" ]; then
-		tray_desktop_file="/usr/share/applications/${name}-tray.desktop"
+	if systemctl --user enable --now "${name}-tray.service"; then
+		info_msg "$(eval_gettext "The \${_name} systray applet has been enabled, it will be automatically started and kept running for the whole session")"
+		exit 0
 	else
-		error_msg "$(eval_gettext "\${_name} tray desktop file not found")"
+		error_msg "$(eval_gettext "Failed to enable the \${_name} systray applet")"
 		exit 10
-	fi
-
-	tray_desktop_file_autostart="${XDG_CONFIG_HOME:-${HOME}/.config}/autostart/${name}-tray.desktop"
-
-	if [ -f "${tray_desktop_file_autostart}" ]; then
-		error_msg "$(eval_gettext "The '\${tray_desktop_file_autostart}' file already exists")"
-		exit 10
-	else
-		mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/autostart/" || exit 10
-		cp "${tray_desktop_file}" "${tray_desktop_file_autostart}" || exit 10
-		info_msg "$(eval_gettext "The '\${tray_desktop_file_autostart}' file has been created, the \${_name} systray applet will be automatically started at boot\n")"
 	fi
 fi
 
 # shellcheck disable=SC2154
-if [ -n "${ARCH_UPDATE_TRAY_BIN}" ]; then
-        tray_bin="${ARCH_UPDATE_TRAY_BIN}"
+if [ -n "${UNIOS_UPDATE_TRAY_BIN}" ]; then
+        tray_bin="${UNIOS_UPDATE_TRAY_BIN}"
 elif [ -f "${HOME}/.local/lib/${name}/${name}-tray" ]; then
         tray_bin="${HOME}/.local/lib/${name}/${name}-tray"
 elif [ -f "/usr/local/lib/${name}/${name}-tray" ]; then
@@ -66,6 +51,13 @@ fi
 info_msg "$(eval_gettext "Starting the \${_name} systray applet")"
 
 # shellcheck disable=SC2154
-ARCH_UPDATE_TRAY_UPDATES_PER_PAGE="${tray_updates_per_page}" \
-ARCH_UPDATE_SHOW_TRAY_WHEN_RELEVANT="${show_tray_when_relevant}" \
-setsid "${tray_bin}" &
+export UNIOS_UPDATE_TRAY_UPDATES_PER_PAGE="${tray_updates_per_page}"
+# shellcheck disable=SC2154
+export UNIOS_UPDATE_SHOW_TRAY_WHEN_RELEVANT="${show_tray_when_relevant}"
+
+# When started by the unios-update-tray systemd user unit, run in the foreground so systemd can supervise (and restart) the applet
+if [ -n "${UNIOS_UPDATE_TRAY_FOREGROUND}" ]; then
+	exec "${tray_bin}"
+else
+	setsid "${tray_bin}" &
+fi

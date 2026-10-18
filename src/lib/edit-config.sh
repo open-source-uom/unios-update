@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# edit-config.sh: Edit the current "arch-update.conf" configuration file
+# edit-config.sh: Edit the current "unios-update.conf" configuration file
 # https://github.com/Antiz96/arch-update
 # SPDX-License-Identifier: GPL-3.0-or-later
 
